@@ -1,0 +1,59 @@
+### Arquivo principal:
+
+- prototipar a função "menuPrincipal()"
+    -- "Gerenciar aparelhos": chamar a função gerenciarAparelhos()
+    -- "Mostrar aparelhos reservados": chamar a função mostrarApReservados()
+    -- "Reservar aparelhos": chamar a função reservarAparelho()
+    -- "Devolver aparelho": chamar a função devolverAparelho()
+    -- "Ajuda": chamar a função helpX()
+    -- "Sair": imprime a mensagem "Saindo..."
+
+- prototipar a função "main()" com um loop chamando o menuPrincipal
+-- looping chamando o menuPrincipal()
+
+### Arquivo gerenciar:
+- se chamar gerenciarAparelhos(), dentro do arquivo "Gerenciar.py", precisa ter:
+
+- prototipar a função "menuGerenciar()" (CRUD)
+    -- "Adicionar aparelho": chamar a função adicionarAparelho()
+    -- "Mostrar aparelhos": chamar a função mostrarAparelho()
+    -- "Editar aparelho": chamar a função editarAparelho()
+    -- "Excluir aparelhos": chamar a função excluirAparelho()
+    -- "Voltar ao menu anterior": imprime a mensagem "Voltando..."
+
+- prototipar a função "gerenciarAparelhos()" com um loop chamando o menuGerenciar()
+-- looping chamando o menuGerenciar()
+
+
+### Arquivo Mostrar Reservas:
+- se chamar mostrarReservas(), dentro do arquivo "Mostrar.py", precisa ter:
+
+- prototipar a função "mostrarReservas()", imprimindo o dicionário de aparelhos.
+
+
+### Reservas:
+- se chamar reservarAparelhos(), dentro do arquivo "Reservar.py", precisa ter:
+
+- prototipar a função "menuReservar()" (CRUD)
+    -- "Criar a reserva": chamar a função criarReserva()
+    -- "Mostrar as reservas": chamar a função mostrarReservas()
+    -- "Editar reserva": chamar a função editarReserva()
+    -- "Cancelar reserva": chamar a função cancelarReserva()
+    -- "Voltar ao menu anterior": imprime a mensagem "Voltando..."
+
+- prototipar a função "reservarAparelhos()" com um loop chamando o menuReservar()
+-- looping chamando o menuReservar()
+
+
+### Arquivo Devolução:
+- se chamar devolverAparelho(), dentro do arquivo "Devolver.py", precisa ter:
+    - prototipar a função "devolverAparelho()", atualizando o dicionário de aparelhos.
+
+
+### Arquivo HelpX:
+- se chamar helpX(), dentro do arquivo "HelpX.py", precisa ter:
+    - prototipar a função "helpX()", imprimindo as instruções do sistema.
+
+
+Falta: Recursão e Obj. Multidimensionais
+-- Ideia: uma matriz recursiva mostrando a reserva na semana.
