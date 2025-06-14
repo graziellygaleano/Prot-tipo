@@ -2,8 +2,6 @@
 #Equipamentos cadastrados:
 dispositivos: dict[str, list[dict]] = {}
 
-
-
 #Salas Cadastradas
 salas = []
 

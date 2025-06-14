@@ -1,5 +1,7 @@
 from GerenciarDispositivos import menu_gerenciar
 from GerenciarReservas import menu_reservas, mostrar_reservas
+from MostrarReservas import reservas_matriz
+from Database import horarios, reservas
 
 
 
@@ -26,8 +28,7 @@ def menu_principal():
         if escolha == 1:
             menu_gerenciar()
         elif escolha == 2:
-            mostrar_reservas()
-            "Mostrar_Reservas()"
+            reservas_matriz(horarios, reservas)
         elif escolha == 3:
             menu_reservas()
         elif escolha == 4:
