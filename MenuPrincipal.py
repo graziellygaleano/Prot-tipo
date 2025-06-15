@@ -1,23 +1,27 @@
 import os
+import time
+from paletadecores import *  # Importa as cores
+from Devoluções import devolver_equipamento
 from GerenciarDispositivos import menu_gerenciar
-from GerenciarReservas import menu_reservas, mostrar_reservas, cancelar_reserva
+from GerenciarReservas import menu_reservas, mostrar_reservas
 from MostrarReservas import reservas_matriz
 from Database import horarios, reservas
-from paletadecores import *  # Importa as cores
 from Ajuda import manual
 
 
-titulo_custom = f"""{FUNDO_PRETO}{AZUL_BRILHANTE}{NEGRITO}
-::::::::::: ::::::::::: :::::::::      :::      ::::::::  :::    ::: 
-    :+:         :+:     :+:    :+:   :+: :+:   :+:    :+: :+:   :+:  
-    +:+         +:+     +:+    +:+  +:+   +:+  +:+        +:+  +:+   
-    +#+         +#+     +#++:++#:  +#++:++#++: +#+        +#++:++    
-    +#+         +#+     +#+    +#+ +#+     +#+ +#+        +#+  +#+   
-    #+#         #+#     #+#    #+# #+#     #+# #+#    #+# #+#   #+#  
-###########     ###     ###    ### ###     ###  ########  ###    ###  
+titulo_custom = f"""\t{FUNDO_PRETO}{AZUL_BRILHANTE}{NEGRITO}
 
-             {BRANCO}+====== SISTEMA ITrack ======+{AZUL_BRILHANTE}
-{RESET}"""
+  _ _ _______             _    
+ (_) |__   __|           | |   
+  _| |_ | |_ __ __ _  ___| | __
+ | | __|| | '__/ _` |/ __| |/ /
+ | | |_ | | | | (_| | (__|   < 
+ |_|\__||_|_|  \__,_|\___|_|\_\
+
+
+
+{BRANCO}+CONTROLE DE PATRIMÔNIO ELETRÔNICO+{AZUL_BRILHANTE}{RESET}
+"""
 
 
 def menu_principal():
@@ -39,25 +43,24 @@ def menu_principal():
 
         if escolha == 1:
             reservas_matriz(horarios, reservas)
-            input("Pressione um tecla para voltar ao menu")
+            input("Pressione uma tecla para voltar ao menu")
             os.system('cls' if os.name == 'nt' else 'clear')            
         elif escolha == 2:
             menu_gerenciar()
-            input("Pressione um tecla para voltar ao menu")
             os.system('cls' if os.name == 'nt' else 'clear')            
         elif escolha == 3:
             menu_reservas()
-            input("Pressione um tecla para voltar ao menu")
             os.system('cls' if os.name == 'nt' else 'clear')            
         elif escolha == 4:
-            cancelar_reserva()
-            input("Pressione um tecla para voltar ao menu")
+            devolver_equipamento()
             os.system('cls' if os.name == 'nt' else 'clear')            
         elif escolha == 5:
             manual()
-            input("Pressione um tecla para voltar ao menu")
+            input("Pressione uma tecla para voltar ao menu")
             os.system('cls' if os.name == 'nt' else 'clear') 
             print(f"{AZUL_BRILHANTE}Saindo...{RESET}")
+        else:
+            exit()
 
 
 

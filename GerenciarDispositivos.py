@@ -1,20 +1,20 @@
 import os
+import time
 from Database import dispositivos
 from paletadecores import *  # Importa as cores
 
 
-#FUNÇÕES
 
 #CADASTRAR EQUIPAMENTOS
 def cadastro_dispositivos():
 
-    print(f"{NEGRITO}{AZUL_BRILHANTE}         +====Bem vindo ao Sistema ITRACK====+{RESET}")
+    print(f"{NEGRITO}{AZUL_BRILHANTE}         +====Bem vindo ao Sistema itTrack====+{RESET}")
     print(f"{CIANO}    Primeiramente você irá inserir os dados, ou seja, marca, modelo e quantidade.{RESET}")
 
     while True:
-        marca = input("{AZUL_CLARO}Marca: {RESET}").strip().upper()
-        modelo = input("{AZUL_CLARO}Modelo: {RESET}").strip()
-        quantidade = int(input("{AZUL_CLARO}Quantidade: {RESET}"))        
+        marca = input(f"{AZUL_CLARO}Marca: {RESET}").strip().upper()
+        modelo = input(f"{AZUL_CLARO}Modelo: {RESET}").strip()
+        quantidade = int(input(f"{AZUL_CLARO}Quantidade: {RESET}"))        
         dispositivos.setdefault(marca, [])
         num_inicial = len(dispositivos[marca]) + 1
 
@@ -37,40 +37,52 @@ def total_cadastrado():
     total = sum(len(lista) for lista in dispositivos.values())
     return total
 
+
+
+
+#EDITAR APARELHOS CADASTRADOS
+
 def editar_aparelho():
     marca_antiga = input("Digite a marca que deseja alterar: ").strip().upper()
 
     if marca_antiga not in dispositivos:
-        print("Marca não encontrada.")
+        print("Marca não encontrada.!!")
+
         return
 
+    modelos_unicos = set(d['modelo'] for d in dispositivos[marca_antiga])
     print("\nModelos disponíveis dessa marca:")
-    for d in dispositivos[marca_antiga]:
-        print(f"- Modelo: {d['modelo']}")
+    for modelo in modelos_unicos:
+        print(f"- {modelo}")
 
     modelo_antigo = input("Digite o modelo que deseja substituir: ").strip()
     nova_marca = input("Nova marca: ").strip().upper()
     novo_modelo = input("Novo modelo: ").strip()
     nova_lista = []
     i = 1
-    for d in dispositivos[marca_antiga]:
-        if d["modelo"] == modelo_antigo:
-            codigo = nova_marca + str(i).zfill(8)
-            nova_lista.append({
-                "codigo": codigo,
-                "modelo": novo_modelo,
-                "status": "disponível"
-            })
-            i += 1
-    dispositivos[marca_antiga] = [d for d in dispositivos[marca_antiga] if d["modelo"] != modelo_antigo]
+    qtde_str = input("Quantidade do novo lote: ").strip()
+    if not qtde_str.isdigit(): 
+        print("Quantidade inválida. Operação cancelada.")
+        return
+    nova_quantidade = int(qtde_str)
+    nova_lista = []
+    for i in range(1, nova_quantidade + 1):
+        codigo = nova_marca + str(i).zfill(8)
+        nova_lista.append({
+            "codigo": codigo,
+            "modelo": novo_modelo,
+            "status": "disponível"
+        })
 
+    dispositivos[marca_antiga] = [d for d in dispositivos[marca_antiga] if d["modelo"] != modelo_antigo]
     if not dispositivos[marca_antiga]:
         del dispositivos[marca_antiga]
     dispositivos.setdefault(nova_marca, []).extend(nova_lista)
+    print(f"{len(nova_lista)} aparelho(s) alterado(s) com sucesso.")
 
 
 
-#MOSTRAR APARELHOS
+#MOSTRAR APARELHOS CADASTRADOS 
 def mostrar_aparelhos():
     if not dispositivos:
         print(f"{VERMELHO}⚠️ Você precisa adicionar aparelhos primeiro{RESET}")
@@ -146,14 +158,17 @@ def menu_gerenciar():
         elif escolha == 2:
             os.system('cls' if os.name == 'nt' else 'clear')            
             mostrar_aparelhos()
-            input()
+            input("Pressione alguma tecla para voltar ao menu")
+            os.system('cls' if os.name == 'nt' else 'clear')            
+
         elif escolha == 3:
             os.system('cls' if os.name == 'nt' else 'clear')            
             editar_aparelho()
         elif escolha == 4:
             os.system('cls' if os.name == 'nt' else 'clear')            
             excluir_aparelhos(dispositivos)
-        else:
+        else:           
             print(f"{AZUL_BRILHANTE}🔙 Voltando para o menu principal...{RESET}")
+            time.sleep(2)
 
 

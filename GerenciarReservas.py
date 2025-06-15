@@ -1,19 +1,22 @@
 import os
+import time
 from Database import dispositivos, horarios, salas, reservas
 from GerenciarDispositivos import total_cadastrado
 from MostrarReservas import mostrar_reservas
 from paletadecores import *  # Importa as cores
 
 
-
-#FUNÇÕES AUX PARA CONFUGURAR "EMPRÉSTIMO"
+#GERAR ID PARA RESERVA
 contador_reservas = 1
-
 def gerar_id_sequencial():
     global contador_reservas
     numero = contador_reservas
     contador_reservas += 1
     return numero
+
+
+#FUNÇÕES UXILIARES PARA CONFIGURAR OPÇÕES DE RESERVAS
+
 
 #Criar destino para usar aparelhos
 def salvar_salas():
@@ -40,7 +43,6 @@ def definir_horario():
 
     print(f"\n{AZUL_BRILHANTE}==== Horário de funcionamento ===={RESET}")
 
-    #Trata horas inválidas (26 - 35)
     while horaI <= 0 or horaI > 24:
         horaI = int(input(f"{AZUL_CLARO}Insira o horário inicial (24h): {RESET}"))
 
@@ -60,7 +62,7 @@ def definir_horario():
 
 
 
-#Configurações
+#FUNÇÃO CONFIGURAR
 def config_reservas():
     
     #MENU
@@ -79,6 +81,12 @@ def config_reservas():
             definir_horario()
         elif menu == 3:
             break
+
+
+
+
+#FUNÇÕES AUXILIARES PARA SELEÇÃO NA RESERVA
+
 
 #Add horário
 def escolher_horario():
@@ -119,6 +127,7 @@ def validar_quantidade(total_cadastrado):
         total_emprestar = int(input(f"{AZUL_CLARO}Digite um valor entre 1 e {total_cadastrado}: {RESET}"))
     return total_emprestar
 
+
 #listar aparelhos
 def listar_aparelhos_disponiveis():
     disponiveis = []
@@ -157,6 +166,8 @@ def selecionar_aparelhos(disponiveis, total_emprestar):
 def criar_reserva():
     global reservas
     ID = gerar_id_sequencial()
+
+
     hora = escolher_horario()
     sala = escolher_sala()
     total_emprestar = validar_quantidade(total_cadastrado())
@@ -175,9 +186,12 @@ def criar_reserva():
 
 
 
-#FUNÇÕES EDITAR EMPRÉSTIMO
+#FUNÇÃO EDITAR EMPRÉSTIMO
 
 def editor_reserva():
+
+    mostrar_reservas()
+
     reserva_id = input("\nDigite o ID da reserva que deseja editar: ")
     while reserva_id not in reservas:
         print("Reserva não encontrada!")
@@ -290,8 +304,9 @@ def editor_reserva():
 
 
 
-#DEVOLVER
+#CANCELAR EMPRÉSTIMO
 def cancelar_reserva():
+
     if not reservas:
         print("\n⚠️ Nenhuma reserva cadastrada.")
         return
@@ -318,7 +333,9 @@ def cancelar_reserva():
         print("❎ Cancelamento abortado.")
 
 
-#MENU
+
+
+#MENU RESERVAS
 def menu_reservas():
     os.system('cls' if os.name == 'nt' else 'clear')            
 
@@ -351,15 +368,17 @@ def menu_reservas():
         elif escolha == 2:
             os.system('cls' if os.name == 'nt' else 'clear')            
             mostrar_reservas()
+            input("Pressione uma tecla para voltar ao menu")
+
         elif escolha == 3:
             os.system('cls' if os.name == 'nt' else 'clear')            
             editor_reserva()
-            input("Pressione um tecla para voltar ao menu")
         elif escolha == 4:
             os.system('cls' if os.name == 'nt' else 'clear')            
             cancelar_reserva()
         else:
             print(f"{AZUL_ESCURO}Voltando para o menu principal...{RESET}")
+            time.sleep(2)
 
 
 

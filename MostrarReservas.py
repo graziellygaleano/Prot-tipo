@@ -9,6 +9,8 @@ def mostrar_reservas():
         for chave, valor in dados.items():
             print(f"{CIANO}{chave}: {BRANCO}{valor}{RESET}")
 
+
+
 def reservas_matriz(horarios, reservas):
 
     #cabeçalho
@@ -17,7 +19,7 @@ def reservas_matriz(horarios, reservas):
 
     print()
     print(f"{margem}+{'=' * largura}+")
-    print(f"{margem}|{'TABELA DE RESERVAS POR HORÁRIO'.center(largura)}|")
+    print(f"{margem}|{'RESERVAS POR HORÁRIO'.center(largura)}|")
     print(f"{margem}+{'=' * largura}+")
     
     print(margem + "".join(f"{h:>6} " for h in horarios))

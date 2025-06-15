@@ -1,6 +1,7 @@
 from Database import dispositivos, horarios, salas, reservas
 from MostrarReservas import mostrar_reservas
 
+
 # dispositivos
 #     marca
 #     modelo
@@ -146,5 +147,7 @@ def search_dispositivo(key, value):
                     if elemento[key] == value:
                         print(elemento)
 
+# from main import main
 from main import main
+
 main()
