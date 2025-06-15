@@ -2,9 +2,11 @@ import os
 from Database import dispositivos, horarios, salas, reservas
 from GerenciarDispositivos import total_cadastrado
 from MostrarReservas import mostrar_reservas
+from paletadecores import *  # Importa as cores
 
 
-#FUNÇÕES AUX PARA CONFUGURAR "RESERVAS"
+
+#FUNÇÕES AUX PARA CONFUGURAR "EMPRÉSTIMO"
 contador_reservas = 1
 
 def gerar_id_sequencial():
@@ -16,16 +18,15 @@ def gerar_id_sequencial():
 #Criar destino para usar aparelhos
 def salvar_salas():
     i = 0
-    print("\n==== Cadastro de Salas ====")
-    qtd_salas = int(input("Quantas salas serão cadastradas: "))
+    print(f"\n{AZUL_BRILHANTE}==== Cadastro de Salas ===={RESET}")
+    qtd_salas = int(input(f"{AZUL_CLARO}Quantas salas serão cadastradas: {RESET}"))
     while i < qtd_salas:
-        sala = input("Insira o número ou nome da sala (ex: 'Sala 1' ou 'Laboratório'): ")
+        sala = input(f"{CIANO}Insira o número ou nome da sala (ex: 'Sala 1' ou 'Laboratório'): {RESET}")
         salas.append(sala)
         i += 1  
+    print(f"{AZUL_ESCURO}Salas cadastradas com sucesso!{RESET}")
 
-    print("Salas cadastradas com sucesso!")
-
-    print("\t=====Salas cadastrados =====")
+    print(f"{AZUL_ESCURO}\t===== Salas cadastradas ====={RESET}")
     for sala in salas:
         print(f"{sala}")
 
@@ -37,22 +38,22 @@ def definir_horario():
     horaI = 0
     horaF = 0
 
-    print("\n==== Horário de funcionamento ====")
+    print(f"\n{AZUL_BRILHANTE}==== Horário de funcionamento ===={RESET}")
 
     #Trata horas inválidas (26 - 35)
     while horaI <= 0 or horaI > 24:
-        horaI = int(input("Insira o horário inicial de funcionamento (formato 24h, ex: 8, 13, 19): "))
+        horaI = int(input(f"{AZUL_CLARO}Insira o horário inicial (24h): {RESET}"))
 
     while horaF <= 0 or horaF > 24:
-        horaF = int(input("Insira o horário final de funcionamento (formato 24h, ex: 8, 13, 19): "))
+        horaF = int(input(f"{AZUL_CLARO}Insira o horário final (24h): {RESET}"))
 
         while horaF <= horaI:
-            horaF = int(input("O horário final deve ser maior que o inicial. Tente novamente: "))
+            horaF = int(input(f"{VERMELHO}Final deve ser maior que o inicial. Tente novamente: {RESET}"))
 
     horarios = list(range(horaI, horaF + 1))
-    print("Horários cadastrado com sucesso!")
+    print(f"{AZUL_CLARO}Horários cadastrados com sucesso!{RESET}")
 
-    print("\t=====Horários cadastrados =====")
+    print(f"{AZUL_ESCURO}\t===== Horários cadastrados ====={RESET}")
     for hora in horarios:
         print(f"{hora}h")
 
@@ -64,14 +65,14 @@ def config_reservas():
     
     #MENU
     while True: 
-        print("\t==== Configurações ====")
-        print("1. Cadastrar destinos para usar aparelhos")
-        print("2. Cadastrar horários para usar aparelhos")
-        print("3. Sair")
+        print(f"{AZUL_BRILHANTE}\t==== Configurações ===={RESET}")
+        print(f"{AZUL_CLARO}1.{RESET} {BRANCO} Cadastrar destinos para usar aparelhos{RESET}")
+        print(f"{AZUL_CLARO}2.{RESET} {BRANCO} Cadastrar horários para usar aparelhos{RESET}")
+        print(f"{AZUL_CLARO}3.{RESET} {BRANCO} Sair{RESET}")
+
         menu = -1
         while menu not in [1,2,3]:
-            menu = int(input("Digite a opção escolhida: "))
-        
+            menu = int(input(f"{AZUL_CLARO}Digite a opção escolhida: {RESET}"))
         if menu == 1:
             salvar_salas()
         elif menu == 2:
@@ -79,10 +80,102 @@ def config_reservas():
         elif menu == 3:
             break
 
+#Add horário
+def escolher_horario():
+    print(f"\n{AZUL_BRILHANTE}=== Opções de horário ==={RESET}")
+    for i in horarios:
+        print(f"{BRANCO}{i}:00{RESET}")
+
+    hora_inicio = int(input(f"{AZUL_CLARO}Digite o horário inicial da reserva: {RESET}"))
+    hora_fim = int(input(f"{AZUL_CLARO}Digite o horário final da reserva: {RESET}"))
+
+    while not all(h in horarios for h in range(hora_inicio, hora_fim + 1)):
+        print(f"{VERMELHO}Horário inválido ou fora do intervalo disponível.{RESET}")
+        hora_inicio = int(input(f"{AZUL_CLARO}Digite o horário inicial: {RESET}"))
+        hora_fim = int(input(f"{AZUL_CLARO}Digite o horário final: {RESET}"))
+
+    return [hora_inicio, hora_fim]
+
+
+#add sala
+def escolher_sala():
+    print(f"\n{AZUL_BRILHANTE}=== Opções de Salas ==={RESET}")
+    for s in salas:
+        print(f"{BRANCO}{s}{RESET}")
+
+    sala = input(f"{AZUL_CLARO}Em qual sala será usado o aparelho? {RESET}")
+    while sala not in salas:
+        print(f"{VERMELHO}Sala inválida. Tente novamente.{RESET}")
+        sala = input(f"{AZUL_CLARO}Em qual sala será usado o aparelho? {RESET}")
+
+    return sala
+
+
+#quantidade de aparelhos
+def validar_quantidade(total_cadastrado):
+    total_emprestar = int(input(f"\n{AZUL_CLARO}Quantos aparelhos deseja emprestar? (máx: {total_cadastrado}): {RESET}"))
+    while total_emprestar > total_cadastrado or total_emprestar <= 0:
+        print(f"{VERMELHO}Quantidade inválida.{RESET}")
+        total_emprestar = int(input(f"{AZUL_CLARO}Digite um valor entre 1 e {total_cadastrado}: {RESET}"))
+    return total_emprestar
+
+#listar aparelhos
+def listar_aparelhos_disponiveis():
+    disponiveis = []
+    print(f"\n{AZUL_BRILHANTE}=== Aparelhos disponíveis ==={RESET}")
+    for marca, lista in dispositivos.items():
+        for aparelho in lista:
+            if aparelho["status"] == "disponível":
+                print(f"Código: {BRANCO}{aparelho['codigo']:<20}{RESET}, Marca: {BRANCO}{marca:<20}{RESET}, Modelo: {BRANCO}{aparelho['modelo']:<20}{RESET}, Status: {AZUL_CLARO}{aparelho['status']:<20}{RESET}")
+                disponiveis.append(aparelho["codigo"])
+    return disponiveis
+
+
+#selecionar aparelhos
+def selecionar_aparelhos(disponiveis, total_emprestar):
+    reservado = []
+    print(f"\n{AZUL_BRILHANTE}Selecionar aparelhos:{RESET}")
+    for i in range(total_emprestar):
+        emprestar = ""
+        while emprestar not in disponiveis or emprestar in reservado:
+            emprestar = input(f"{AZUL_CLARO}Insira o código do aparelho: {RESET}")
+            if emprestar not in disponiveis:
+                print(f"{VERMELHO}Código inválido ou indisponível.{RESET}")
+            elif emprestar in reservado:
+                print(f"{VERMELHO}Este aparelho já foi selecionado.{RESET}")
+        reservado.append(emprestar)
+        for marca, lista in dispositivos.items():
+            for aparelho in lista:
+                if aparelho["codigo"] == emprestar:
+                    aparelho["status"] = "indisponível"
+                    break
+    return reservado
 
 
 
-#FUNÇÕES AUX PARA CRIAR RESERVAS
+#CRIAR EMPRÉSTIMO
+def criar_reserva():
+    global reservas
+    ID = gerar_id_sequencial()
+    hora = escolher_horario()
+    sala = escolher_sala()
+    total_emprestar = validar_quantidade(total_cadastrado())
+    disponiveis = listar_aparelhos_disponiveis()
+    reservado = selecionar_aparelhos(disponiveis, total_emprestar)
+
+    reservas[ID] = {
+        "Hora": hora,
+        "Destino": sala,
+        "Código": reservado
+    }
+
+    print(f"\n{AZUL_BRILHANTE}Reserva criada com sucesso!{RESET}")
+    print(f"{AZUL_CLARO}ID: {BRANCO}{ID}{RESET}")
+    print(reservas[ID])
+
+
+
+#FUNÇÕES EDITAR EMPRÉSTIMO
 
 def editor_reserva():
     reserva_id = input("\nDigite o ID da reserva que deseja editar: ")
@@ -197,102 +290,7 @@ def editor_reserva():
 
 
 
-#Add horário
-def escolher_horario():
-    print("\n=== Opções de horário ===")
-    for i in horarios:
-        print(f"{i}:00")
-
-    hora_inicio = int(input("Digite o horário inicial da reserva (ex: 8): "))
-    hora_fim = int(input("Digite o horário final da reserva (ex: 10): "))
-
-    while not all(h in horarios for h in range(hora_inicio, hora_fim + 1)):
-        print("Horário inválido ou fora do intervalo disponível. Tente novamente.")
-        hora_inicio = int(input("Digite o horário inicial da reserva (ex: 8): "))
-        hora_fim = int(input("Digite o horário final da reserva (ex: 10): "))
-
-    return [hora_inicio, hora_fim]
-
-
-#add sala
-def escolher_sala():
-    print("\n=== Opções de Salas ===")
-    for s in salas:
-        print(s)
-
-    sala = input("Em qual sala será usado o aparelho? ")
-    while sala not in salas:
-        print("Sala inválida. Tente novamente.")
-        sala = input("Em qual sala será usado o aparelho? ")
-
-    return sala
-
-
-#quantidade de aparelhos
-def validar_quantidade(total_cadastrado):
-    total_emprestar = int(input(f"\nQuantos aparelhos deseja emprestar? (máx: {total_cadastrado}): "))
-    while total_emprestar > total_cadastrado or total_emprestar <= 0:
-        print("Quantidade inválida.")
-        total_emprestar = int(input(f"Digite um valor entre 1 e {total_cadastrado}: "))
-    return total_emprestar
-
-
-#listar aparelhos
-def listar_aparelhos_disponiveis():
-    disponiveis = []
-    print("\n=== Aparelhos disponíveis ===")
-    for marca, lista in dispositivos.items():
-        for aparelho in lista:
-            if aparelho["status"] == "disponível":
-                print(f"Código: {aparelho['codigo']:<20}, Marca: {marca:<20}, Modelo: {aparelho['modelo']:<20}, Status: {aparelho['status']:<20}")
-                disponiveis.append(aparelho["codigo"])
-    return disponiveis
-
-
-#selecionar aparelhos
-def selecionar_aparelhos(disponiveis, total_emprestar):
-    reservado = []
-    print("\nSelecionar aparelhos:")
-    for i in range(total_emprestar):
-        emprestar = ""
-        while emprestar not in disponiveis or emprestar in reservado:
-            emprestar = input("Insira o código do aparelho que deseja: ")
-            if emprestar not in disponiveis:
-                print("Código inválido ou indisponível. Tente novamente.")
-            elif emprestar in reservado:
-                print("Este aparelho já foi selecionado. Escolha outro.")
-        reservado.append(emprestar)
-    return reservado
-
-
-
-#CRIAR RESERVAS
-def criar_reserva():
-    global reservas
-    ID = gerar_id_sequencial()
-    hora = escolher_horario()
-    sala = escolher_sala()
-    total_emprestar = validar_quantidade(total_cadastrado())
-    disponiveis = listar_aparelhos_disponiveis()
-    reservado = selecionar_aparelhos(disponiveis, total_emprestar)
-
-    reservas[ID] = {
-        "Hora": hora,
-        "Destino": sala,
-        "Código": reservado
-    }
-
-    print("\nReserva criada com sucesso!")
-    print(f"ID: {ID}")
-    print(reservas[ID])
-
-
-
-
-#MENU EDITAR RESERVA
-
-
-#CANCELAR RESERVA
+#DEVOLVER
 def cancelar_reserva():
     if not reservas:
         print("\n⚠️ Nenhuma reserva cadastrada.")
@@ -322,48 +320,46 @@ def cancelar_reserva():
 
 #MENU
 def menu_reservas():
+    os.system('cls' if os.name == 'nt' else 'clear')            
 
     escolha = -1
     while escolha != 5:
         # Exibir opções
-        print("\tMENU PRINCIPAL")
-        print("0. Configurar reservas")
-        print("1. Criar Reserva")
-        print("2. Mostrar Reservas")
-        print("3. Editar Reservas")
-        print("4. Cancelar Reservas")
-        print("5. Sair")
+        print(f"\t{AZUL_BRILHANTE}MENU PRINCIPAL{RESET}")
+        print(f"{AZUL_CLARO}0. Configurar empréstimos{RESET}")
+        print(f"{AZUL_CLARO}1. Criar empréstimos{RESET}")
+        print(f"{AZUL_CLARO}2. Mostrar empréstimo{RESET}")
+        print(f"{AZUL_CLARO}3. Editar Empréstimo{RESET}")
+        print(f"{AZUL_CLARO}4. Cancelar Empréstimo{RESET}")
+        print(f"{AZUL_CLARO}5. Sair{RESET}")
 
         escolha = int(input("Digite a sua opcao: "))
 
         # Verificar se a opção está no intervalo válido
         if escolha < 0 or escolha > 5:
-            print("\tVocê digitou um valor inválido!\n")
+            print(f"{VERMELHO}\tVocê digitou um valor inválido!\n{RESET}")
             continue
 
         # Executar ação com base na escolha
         if escolha == 0:
+            os.system('cls' if os.name == 'nt' else 'clear')            
             config_reservas()
-            input("Pressione um tecla para voltar ao menu")
             os.system('cls' if os.name == 'nt' else 'clear')
         if escolha == 1:
+            os.system('cls' if os.name == 'nt' else 'clear')            
             criar_reserva()
-            input("Pressione um tecla para voltar ao menu")
-            os.system('cls' if os.name == 'nt' else 'clear')
         elif escolha == 2:
+            os.system('cls' if os.name == 'nt' else 'clear')            
             mostrar_reservas()
-            input("Pressione um tecla para voltar ao menu")
-            os.system('cls' if os.name == 'nt' else 'clear')
         elif escolha == 3:
+            os.system('cls' if os.name == 'nt' else 'clear')            
             editor_reserva()
             input("Pressione um tecla para voltar ao menu")
-            os.system('cls' if os.name == 'nt' else 'clear')
         elif escolha == 4:
+            os.system('cls' if os.name == 'nt' else 'clear')            
             cancelar_reserva()
-            input("Pressione um tecla para voltar ao menu")
-            os.system('cls' if os.name == 'nt' else 'clear')
         else:
-            print("Voltando para o meu principal...")
+            print(f"{AZUL_ESCURO}Voltando para o menu principal...{RESET}")
 
 
 

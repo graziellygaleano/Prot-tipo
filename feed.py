@@ -21,8 +21,8 @@ for i in horario_de_funcionamento:
 def addDispositivo(marca, modelo, qtd):
     marca = marca.upper()
     dispositivos.setdefault(marca, [])
+    num_inicial = len(dispositivos[marca]) + 1
     for i in range(qtd):
-        num_inicial = len(dispositivos[marca]) + 1
         serial = str(num_inicial + i).zfill(8)
         codigo = f"{marca}{serial}"
         dispositivos[marca].append({
@@ -41,6 +41,13 @@ def addReserva(ID, horaInicio, horaFinal, sala, reservado):
             "Destino": sala, # Qualquer string com um dos valores a seguir: ["Sala 01", "Sala 02", "Sala 03", "Sala 04", "Sala 05", "Sala 06", "Sala 07", "Sala 08", "Sala 09", Cozinha]
             "Código": [reservado] # Formato do código: {marca em CAPSLOCK}{número incremental de exatos 8 dígitos (zeros adicionados a esquerda)}
         }
+    
+    for marca, dispositivo_lista in dispositivos.items():
+        for dispositivo in dispositivo_lista:
+            if dispositivo["codigo"] == reservado:
+                dispositivo["status"] = "indisponível"
+
+
     
 # ! Começando a feedar
 
@@ -121,6 +128,23 @@ addReserva(9, 8, 9, "Sala 04", "SONY00000002")
 # ID: 10 - Reservando o terceiro iPhone disponível
 addReserva(10, 9, 10, "Sala 02", "APPLE00000006")
 
+def mostrar_disponivel():
+    for marca, dispositivolista in dispositivos.items():
+        for elemento in dispositivolista:
+                if elemento["status"] == "disponível":
+                    print(elemento)
+
+def mostrar_indisponivel():
+    for marca, dispositivolista in dispositivos.items():
+        for elemento in dispositivolista:
+                if elemento["status"] == "indisponível":
+                    print(elemento)
+
+def search_dispositivo(key, value):
+    for marca, dispositivolista in dispositivos.items():
+            for elemento in dispositivolista:
+                    if elemento[key] == value:
+                        print(elemento)
 
 from main import main
 main()

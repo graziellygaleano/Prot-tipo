@@ -1,21 +1,20 @@
+import os
 from Database import dispositivos
+from paletadecores import *  # Importa as cores
+
 
 #FUNÇÕES
-"""   
-    -- "Adicionar aparelho": chamar a função adicionarAparelho() 
-    -- "Mostrar aparelhos": chamar a função mostrarAparelho()
-    -- "Editar aparelho": chamar a função editarAparelho()
-    -- "Excluir aparelhos": chamar a função excluirAparelho()
-    -- "Voltar ao menu anterior": imprime a mensagem "Voltando...
-"""
 
 #CADASTRAR EQUIPAMENTOS
 def cadastro_dispositivos():
-    print("         +====Bem vindo ao Sistema IF de Notebooks====+ \n    Primeiramente você irá inserir os dados, ou seja, marca, modelo e quantidade.")
+
+    print(f"{NEGRITO}{AZUL_BRILHANTE}         +====Bem vindo ao Sistema ITRACK====+{RESET}")
+    print(f"{CIANO}    Primeiramente você irá inserir os dados, ou seja, marca, modelo e quantidade.{RESET}")
+
     while True:
-        marca = input("Marca: ").strip().upper()
-        modelo = input("Modelo: ").strip()
-        quantidade = int(input("Quantidade: "))        
+        marca = input("{AZUL_CLARO}Marca: {RESET}").strip().upper()
+        modelo = input("{AZUL_CLARO}Modelo: {RESET}").strip()
+        quantidade = int(input("{AZUL_CLARO}Quantidade: {RESET}"))        
         dispositivos.setdefault(marca, [])
         num_inicial = len(dispositivos[marca]) + 1
 
@@ -26,10 +25,11 @@ def cadastro_dispositivos():
                 "codigo": codigo,
                 "modelo": modelo,
                 "status": "disponível"
-            })
-            print(f"Dispositivo cadastrado: {codigo}")
 
-        continuar = input("\nQuer cadastrar outra marca? (s para sim / n para não): ").lower().strip()
+            })
+            print(f"{AZUL_CLARO}📦 Dispositivo cadastrado: {AZUL_ESCURO}{codigo}{RESET}")
+
+        continuar = input(f"\n{CIANO}Quer cadastrar outra marca? (s para sim / n para não): {RESET}").lower().strip()
         if continuar != "s": 
             break
 
@@ -73,14 +73,14 @@ def editar_aparelho():
 #MOSTRAR APARELHOS
 def mostrar_aparelhos():
     if not dispositivos:
-        print("Você precisa adicionar aparelhos primeiro")
+        print(f"{VERMELHO}⚠️ Você precisa adicionar aparelhos primeiro{RESET}")
     else:
         for marca, lista in dispositivos.items():
             print(f"\nMarca {marca}: ")
             print(f"{'CÓDIGO':<12} | {'MODELO':<10} | {'STATUS':<12}")
             print("-" * 40)
             for d in lista:
-                print(f"{d['codigo']:<12} | {d['modelo']:<10} | {d['status']:<12}")
+                print(f"  {AZUL_ESCURO}{d['codigo']}{RESET} | {CIANO}{d['modelo']}{RESET} | {AZUL_CLARO}{d['status']}{RESET}")
 
 
 
@@ -95,14 +95,10 @@ def excluir_aparelhos(dispositivos):
         return
 
     nome_aparelho = input("Digite o codigo do aparelho que deseja excluir: ").strip()
-
     
     lista = dispositivos[marca]
-
-    
     lista.sort(key=lambda x: x["codigo"])
 
-    
     inicio = 0
     fim = len(lista) - 1
 
@@ -130,27 +126,34 @@ def excluir_aparelhos(dispositivos):
 def menu_gerenciar():
     escolha = -1
     while escolha != 5:
-        print("1. Adicionar aparelhos")
-        print("2. Mostrar aparelhos ")
-        print("3. Editar Aparelhos")
-        print("4. Excluir aparelhos")
-        print("5. Sair")
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print(f"{AZUL_BRILHANTE}\nMenu de Gerenciamento de Aparelhos:{RESET}")
+        print(f"{AZUL_ESCURO}1.{RESET} {BRANCO}Adicionar aparelhos{RESET}")
+        print(f"{AZUL_ESCURO}2.{RESET} {BRANCO}Mostrar aparelhos{RESET}")
+        print(f"{AZUL_ESCURO}3.{RESET} {BRANCO}Editar aparelhos{RESET}")
+        print(f"{AZUL_ESCURO}4.{RESET} {BRANCO}Excluir aparelhos{RESET}")
+        print(f"{AZUL_ESCURO}5.{RESET} {BRANCO}Sair{RESET}")
 
-        escolha = int(input("Digite a sua opcao: "))
+        escolha = int(input(f"{AZUL_CLARO}Digite a sua opção: {RESET}"))
 
         if escolha < 1 or escolha > 5:
-            print("\tVocê digitou um valor inválido!\n")
+            print(f"{VERMELHO}⚠️ Digite um número válido.{RESET}")
             continue
 
         if escolha == 1:
+            os.system('cls' if os.name == 'nt' else 'clear')            
             cadastro_dispositivos()
         elif escolha == 2:
+            os.system('cls' if os.name == 'nt' else 'clear')            
             mostrar_aparelhos()
+            input()
         elif escolha == 3:
+            os.system('cls' if os.name == 'nt' else 'clear')            
             editar_aparelho()
         elif escolha == 4:
+            os.system('cls' if os.name == 'nt' else 'clear')            
             excluir_aparelhos(dispositivos)
         else:
-            print("Voltando para o menu principal")
+            print(f"{AZUL_BRILHANTE}🔙 Voltando para o menu principal...{RESET}")
 
 

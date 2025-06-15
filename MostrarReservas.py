@@ -1,11 +1,13 @@
 from Database import reservas, horarios
+from paletadecores import *  # Importa as cores
+
 
 def mostrar_reservas():
-    print("\n--- RESERVAS ---")
+    print(f"\n{AZUL_BRILHANTE}--- RESERVAS ---{RESET}")
     for reserva_id, dados in reservas.items():
-        print(f"\nID da reserva: {reserva_id}")
+        print(f"\n{AZUL_CLARO}ID da reserva: {BRANCO}{reserva_id}{RESET}")
         for chave, valor in dados.items():
-            print(f"{chave}: {valor}")
+            print(f"{CIANO}{chave}: {BRANCO}{valor}{RESET}")
 
 def reservas_matriz(horarios, reservas):
 
