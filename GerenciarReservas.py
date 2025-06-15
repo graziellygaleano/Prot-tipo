@@ -110,7 +110,7 @@ def editor_reserva():
                 print(f"3. Alterar todos aparelhos")
                 print(f"4. Substituir um aparelho")
 
-                num_linha = input("Digite o número da linha (1-4) que deseja editar: ")
+                num_linha = input("Digite a opção (1-4) que deseja editar: ")
                 if num_linha in ["1", "2", "3", "4"]:
                     break
                 else:
@@ -151,7 +151,6 @@ def editor_reserva():
 
                 # edita quantidades
             elif num_linha == "3":
-                    # ! Mostrar e validar os códigos que por enquanto estao sendo adicionados no fodase
                  novo_total = validar_quantidade(total_cadastrado())
                  lista_disponivel = listar_aparelhos_disponiveis()
                  print(lista_disponivel)
@@ -162,61 +161,26 @@ def editor_reserva():
             elif num_linha == "4":
                 valor_atual = dados["Código"]
                 print("Códigos atuais:")
-                for index, codigo in enumerate(valor_atual, start=1):
-                    print(f"{index}: {codigo}")
-                escolha = input("Quer editar um código específico? (s/n): ").lower()
-                if escolha == 's':
-                    pos_str = input("Digite o número do código que quer editar: ")
-                    if pos_str.isdigit():
-                        pos = int(pos_str) - 1
-                        if 0 <= pos < len(valor_atual):
-                            # ! Mostrar e validar os códigos que por enquanto estao sendo adicionados no fodase
-                            novo_codigo = input("Digite o novo código: ")
-                            if novo_codigo.isdigit():
-                                valor_atual[pos] = novo_codigo
-                                print("Código atualizado com sucesso!")
-                            else:
-                                print("Código inválido!")
-                        else:
-                            print("Posição inválida.")
-                    else:
-                        print("Número inválido.")
-                # elif escolha == "n":
-                #     novo_valor = input("Digite a nova lista inteira (ex: 1,2,3): ")
-                #     novo_valor = novo_valor.strip()
-                #     if novo_valor == "":
-                #         dados["Códigos"] = []
-                #     else:
-                #         itens = [x.strip() for x in novo_valor.split(",")]
-                #         nova_lista = []
-                #         for item in itens:
-                #             if item.isdigit():
-                #                 nova_lista.append(int(item))
-                #             else:
-                #                 nova_lista.append(item)
-                #         dados["Códigos"] = nova_lista
-                #     print("Lista atualizada com sucesso!")
+                codes = []
+                for codigo in dados["Código"]:
+                    codes.append(codigo)
+                    print(codigo)
+                    print(codes)
+
+                old_code = input("Digite o código que quer editar: ")
+                index = dados["Código"].index(old_code)
+                if old_code not in codes:
+                    print("Insira um código válido!")
+                    while old_code not in codes:
+                        mudar_code = input("Digite o número do código que quer editar: ")
                 else:
+                    listar_aparelhos_disponiveis()
+                    substituido = selecionar_aparelhos(listar_aparelhos_disponiveis(),1)
+                    dados["Código"][index] = substituido[0]
+
+
+            else:
                     print("Opção inválida!")
-
-
-
-
-            # # edita quantidade e códigos
-            # elif num_linha == "3" or num_linha == "4":
-            #     while True:
-            #         qtd_str = input("Digite a nova quantidade de aparelhos: ")
-            #         if qtd_str.isdigit() and int(qtd_str) > 0:
-            #             nova_qtd = int(qtd_str)
-            #             novos_codigos = []
-            #             for i in range(nova_qtd):
-            #                 cod = input(f"Digite o código do aparelho #{i+1}: ")
-            #                 novos_codigos.append(cod)
-            #             dados["Código"] = novos_codigos
-            #             print("Códigos atualizados com sucesso!")
-            #             break
-            #         else:
-            #             print("Quantidade inválida. Digite um número maior que zero.")
 
         elif comando == "s":
             print("Alterações salvas com sucesso!")
@@ -224,6 +188,8 @@ def editor_reserva():
 
         else:
             print("Comando inválido!")
+
+
 
 #Add horário
 def escolher_horario():
@@ -316,10 +282,6 @@ def criar_reserva():
 
 
 
-#AUX EDITAR RESERVAS
-
-
-
 
 #MENU EDITAR RESERVA
 
@@ -349,20 +311,23 @@ def menu_reservas():
         # Executar ação com base na escolha
         if escolha == 0:
             config_reservas()
+            input("Pressione um tecla para voltar ao menu")
             os.system('cls' if os.name == 'nt' else 'clear')
         if escolha == 1:
             criar_reserva()
-            input("Aperte enter para voltar ao menu")
+            input("Pressione um tecla para voltar ao menu")
             os.system('cls' if os.name == 'nt' else 'clear')
         elif escolha == 2:
             mostrar_reservas()
+            input("Pressione um tecla para voltar ao menu")
             os.system('cls' if os.name == 'nt' else 'clear')
         elif escolha == 3:
             editor_reserva()
-            input("Aperte enter para voltar ao menu")            
+            input("Pressione um tecla para voltar ao menu")
             os.system('cls' if os.name == 'nt' else 'clear')
         elif escolha == 4:
             "cancelar_reservas()"
+            input("Pressione um tecla para voltar ao menu")
             os.system('cls' if os.name == 'nt' else 'clear')
         else:
             print("Voltando para o meu principal...")
