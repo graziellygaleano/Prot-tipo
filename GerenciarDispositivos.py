@@ -43,6 +43,8 @@ def total_cadastrado():
 #EDITAR APARELHOS CADASTRADOS
 
 def editar_aparelho():
+
+    mostrar_aparelhos()
     marca_antiga = input("Digite a marca que deseja alterar: ").strip().upper()
 
     if marca_antiga not in dispositivos:
@@ -61,7 +63,7 @@ def editar_aparelho():
     nova_lista = []
     i = 1
     qtde_str = input("Quantidade do novo lote: ").strip()
-    if not qtde_str.isdigit(): 
+    if not qtde_str.isdigit():  
         print("Quantidade inválida. Operação cancelada.")
         return
     nova_quantidade = int(qtde_str)
@@ -85,16 +87,16 @@ def editar_aparelho():
 #MOSTRAR APARELHOS CADASTRADOS 
 def mostrar_aparelhos():
     if not dispositivos:
-        print(f"{VERMELHO}⚠️ Você precisa adicionar aparelhos primeiro{RESET}")
-    else:
-        for marca, lista in dispositivos.items():
-            print(f"\nMarca {marca}: ")
-            print(f"{'CÓDIGO':<12} | {'MODELO':<10} | {'STATUS':<12}")
-            print("-" * 40)
-            for d in lista:
-                print(f"  {AZUL_ESCURO}{d['codigo']}{RESET} | {CIANO}{d['modelo']}{RESET} | {AZUL_CLARO}{d['status']}{RESET}")
+        print(f"{VERMELHO}⚠️ Nenhum aparelho cadastrado.{RESET}")
+        return
 
-
+    print(f"{NEGRITO}{AZUL_BRILHANTE}\n+==== Lista de Aparelhos Cadastrados ====+{RESET}")
+    for marca, lista in dispositivos.items():
+        print(f"\n{NEGRITO}{AZUL_CLARO}Marca: {marca}{RESET}")
+        print(f"{'CÓDIGO':<15} | {'MODELO':<20} | {'STATUS':<12}")
+        print("-" * 55)
+        for d in lista:
+            print(f"{d['codigo']:<15} | {d['modelo']:<20} | {d['status']:<12}")
 
 #EXCLUIR APARELHOS
 def excluir_aparelhos(dispositivos):
@@ -132,14 +134,15 @@ def excluir_aparelhos(dispositivos):
 
     print(f"Aparelho '{nome_aparelho}' não encontrado na marca '{marca}'.")
 
-
+def cabecalho(titulo):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print(f"{NEGRITO}{AZUL_BRILHANTE}+{'='*10} {titulo} {'='*10}+{RESET}")
 
 #MENU GERENCIAR
 def menu_gerenciar():
     escolha = -1
     while escolha != 5:
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print(f"{AZUL_BRILHANTE}\nMenu de Gerenciamento de Aparelhos:{RESET}")
+        cabecalho("Menu de Gerenciamento de Aparelhos")
         print(f"{AZUL_ESCURO}1.{RESET} {BRANCO}Adicionar aparelhos{RESET}")
         print(f"{AZUL_ESCURO}2.{RESET} {BRANCO}Mostrar aparelhos{RESET}")
         print(f"{AZUL_ESCURO}3.{RESET} {BRANCO}Editar aparelhos{RESET}")
@@ -164,6 +167,7 @@ def menu_gerenciar():
         elif escolha == 3:
             os.system('cls' if os.name == 'nt' else 'clear')            
             editar_aparelho()
+            input("Pressione alguma tecla para voltar ao menu")
         elif escolha == 4:
             os.system('cls' if os.name == 'nt' else 'clear')            
             excluir_aparelhos(dispositivos)

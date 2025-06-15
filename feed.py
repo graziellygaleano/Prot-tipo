@@ -147,7 +147,11 @@ def search_dispositivo(key, value):
                     if elemento[key] == value:
                         print(elemento)
 
-# from main import main
+
 from main import main
 
 main()
+
+
+# from MostrarReservas import reservas_matriz
+# reservas_matriz(horarios, reservas)

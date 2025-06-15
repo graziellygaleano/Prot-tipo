@@ -53,6 +53,7 @@ def menu_principal():
             os.system('cls' if os.name == 'nt' else 'clear')            
         elif escolha == 4:
             devolver_equipamento()
+            input("Pressione uma tecla para voltar ao menu")
             os.system('cls' if os.name == 'nt' else 'clear')            
         elif escolha == 5:
             manual()

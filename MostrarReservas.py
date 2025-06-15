@@ -15,15 +15,7 @@ def reservas_matriz(horarios, reservas):
 
     #cabeçalho
     margem = " " * 6
-    largura = len(horarios) * 7
-
-    print()
-    print(f"{margem}+{'=' * largura}+")
-    print(f"{margem}|{'RESERVAS POR HORÁRIO'.center(largura)}|")
-    print(f"{margem}+{'=' * largura}+")
     
-    print(margem + "".join(f"{h:>6} " for h in horarios))
-    print(f"{margem}+{'-' * largura}+")
 
 
     reservantes_por_hora = {
@@ -31,18 +23,48 @@ def reservas_matriz(horarios, reservas):
         for h in horarios
     }
 
+    max_colunas = max(len(reservantes) for reservantes in reservantes_por_hora.values()) + 2
+    
+    divisoria_horizontal = "+" + max_colunas*("-"*8+"+")
+
+
+    largura = len(divisoria_horizontal) - 2
+
+    print()
+    print(f"{margem}+{'=' * largura}+")
+    print(f"{margem}|{'RESERVAS POR HORÁRIO'.center(largura)}|")
+    print(f"{margem}+{'=' * largura}+")
+    
+    legenda = f"{margem}|{"Horário":>8}|{"Qtd":>8}| Reservas{(largura - 27)*" "}|"
+    
+    print(legenda)
+    print(margem+divisoria_horizontal)
+    # print(f"{margem}+{'-' * largura}+")
+
+    # for column in range(max_colunas):
+    #     divisoria_horizontal += "-"*8 + "+"
+
     if all(len(reservantes) == 0 for reservantes in reservantes_por_hora.values()):
         print("Nenhuma reserva encontrada.")
         return
+        
 
-    max_linhas = max(len(reservantes) for reservantes in reservantes_por_hora.values())
 
-    for linha in range(max_linhas):
+    # for linha in range(max_linhas):
+    #     print("      ", end="")
+    #     for h in horarios:
+    #         reservantes = reservantes_por_hora[h]
+    #         if linha < len(reservantes):
+    #             print(f"{reservantes[linha]:>6}", end=" ")
+    #         else:
+    #             print("    ", end=" ")
+    #     print()
+    for horario in horarios:
         print("      ", end="")
-        for h in horarios:
-            reservantes = reservantes_por_hora[h]
-            if linha < len(reservantes):
-                print(f"{reservantes[linha]:>6}", end=" ")
-            else:
-                print("    ", end=" ")
-        print()
+        reservantes = reservantes_por_hora[horario]
+        aux = ''
+        for reserva in reservantes:
+            aux += f"ID: {reserva:>4}|"
+        print(f"|{horario:>7}h|{len(reservantes):>8}|{aux}", end="\n")
+
+    print(margem+divisoria_horizontal)

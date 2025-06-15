@@ -15,7 +15,7 @@ def devolver_equipamento():
     reserva_id = input("\nDigite o ID de empréstimo que deseja devovler: ").strip()
 
     if reserva_id not in reservas:
-        print("❌ Empréstimo não encontrada!")
+        print("❌ Empréstimo não encontrado!")
         return
 
     confirm = input(f"Tem certeza que deseja devolver '{reserva_id}'? (s/n): ").strip().lower()

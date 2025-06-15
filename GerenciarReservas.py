@@ -135,8 +135,8 @@ def listar_aparelhos_disponiveis():
     for marca, lista in dispositivos.items():
         for aparelho in lista:
             if aparelho["status"] == "disponível":
-                print(f"Código: {BRANCO}{aparelho['codigo']:<20}{RESET}, Marca: {BRANCO}{marca:<20}{RESET}, Modelo: {BRANCO}{aparelho['modelo']:<20}{RESET}, Status: {AZUL_CLARO}{aparelho['status']:<20}{RESET}")
-                disponiveis.append(aparelho["codigo"])
+                print(f"Código: {BRANCO}{aparelho['codigo']:<20}{RESET} | Marca: {BRANCO}{marca:<20}{RESET} | Modelo: {BRANCO}{aparelho['modelo']:<20}{RESET} | Status: {AZUL_CLARO}{aparelho['status']:<20}{RESET}")
+                disponiveis.append(aparelho)
     return disponiveis
 
 
@@ -190,7 +190,9 @@ def criar_reserva():
 
 def editor_reserva():
 
-    mostrar_reservas()
+    print(f"\n{AZUL_BRILHANTE}=== Reservas Atuais ==={RESET}")
+    for id_reserva in reservas:
+        print(f"ID: {BRANCO}{id_reserva}{RESET}")
 
     reserva_id = input("\nDigite o ID da reserva que deseja editar: ")
     while reserva_id not in reservas:
@@ -233,7 +235,7 @@ def editor_reserva():
             if num_linha == "1":
                 while True:
                     print(horarios)
-                    hora = input("Digite o horário inicial e final (ex: 8 10): ")
+                    hora = input("Digite os horários separados por espaço (ex: 8 10): ")
                     partes = hora.strip().split()
 
                     if len(partes) != 2 or not all(p.isdigit() for p in partes):
@@ -342,7 +344,7 @@ def menu_reservas():
     escolha = -1
     while escolha != 5:
         # Exibir opções
-        print(f"\t{AZUL_BRILHANTE}MENU PRINCIPAL{RESET}")
+        print(f"{AZUL_BRILHANTE}{'+'+'='*30}\n{'MENU PRINCIPAL':^30}\n{'='*30 +'+'}{RESET}")
         print(f"{AZUL_CLARO}0. Configurar empréstimos{RESET}")
         print(f"{AZUL_CLARO}1. Criar empréstimos{RESET}")
         print(f"{AZUL_CLARO}2. Mostrar empréstimo{RESET}")
