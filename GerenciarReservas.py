@@ -7,7 +7,7 @@ from paletadecores import *  # Importa as cores
 
 
 #GERAR ID PARA RESERVA
-contador_reservas = 1
+contador_reservas = 1 + len(reservas)
 def gerar_id_sequencial():
     global contador_reservas
     numero = contador_reservas
@@ -136,7 +136,7 @@ def listar_aparelhos_disponiveis():
         for aparelho in lista:
             if aparelho["status"] == "disponível":
                 print(f"Código: {BRANCO}{aparelho['codigo']:<20}{RESET} | Marca: {BRANCO}{marca:<20}{RESET} | Modelo: {BRANCO}{aparelho['modelo']:<20}{RESET} | Status: {AZUL_CLARO}{aparelho['status']:<20}{RESET}")
-                disponiveis.append(aparelho)
+                disponiveis.append(aparelho["codigo"])
     return disponiveis
 
 
