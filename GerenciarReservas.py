@@ -5,7 +5,13 @@ from MostrarReservas import mostrar_reservas
 
 
 #FUNÇÕES AUX PARA CONFUGURAR "RESERVAS"
+contador_reservas = 1
 
+def gerar_id_sequencial():
+    global contador_reservas
+    numero = contador_reservas
+    contador_reservas += 1
+    return numero
 
 #Criar destino para usar aparelhos
 def salvar_salas():
@@ -263,7 +269,7 @@ def selecionar_aparelhos(disponiveis, total_emprestar):
 #CRIAR RESERVAS
 def criar_reserva():
     global reservas
-    ID = input("ID: ")
+    ID = gerar_id_sequencial()
     hora = escolher_horario()
     sala = escolher_sala()
     total_emprestar = validar_quantidade(total_cadastrado())
@@ -285,6 +291,33 @@ def criar_reserva():
 
 #MENU EDITAR RESERVA
 
+
+#CANCELAR RESERVA
+def cancelar_reserva():
+    if not reservas:
+        print("\n⚠️ Nenhuma reserva cadastrada.")
+        return
+
+    print("\n=== Reservas Cadastradas ===")
+    for id_reserva, dados in reservas.items():
+        print(f"\nID: {id_reserva}")
+        print(f"  Horário: {dados['Hora'][0]}h às {dados['Hora'][1]}h")
+        print(f"  Destino: {dados['Destino']}")
+        print(f"  Aparelhos: {', '.join(dados['Código'])}")
+
+    reserva_id = input("\nDigite o ID da reserva que deseja cancelar: ").strip()
+
+    if reserva_id not in reservas:
+        print("❌ Reserva não encontrada!")
+        return
+
+    confirm = input(f"Tem certeza que deseja cancelar a reserva '{reserva_id}'? (s/n): ").strip().lower()
+
+    if confirm == 's':
+        del reservas[reserva_id]
+        print("✅ Reserva cancelada com sucesso!")
+    else:
+        print("❎ Cancelamento abortado.")
 
 
 #MENU
@@ -326,16 +359,14 @@ def menu_reservas():
             input("Pressione um tecla para voltar ao menu")
             os.system('cls' if os.name == 'nt' else 'clear')
         elif escolha == 4:
-            "cancelar_reservas()"
+            cancelar_reserva()
             input("Pressione um tecla para voltar ao menu")
             os.system('cls' if os.name == 'nt' else 'clear')
         else:
             print("Voltando para o meu principal...")
 
 
-def editar_reserva():
-    pass
 
-def cancelar_reserva():
-    pass
+
+
 

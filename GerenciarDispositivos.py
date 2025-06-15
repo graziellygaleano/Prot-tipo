@@ -68,9 +68,7 @@ def editar_aparelho():
         del dispositivos[marca_antiga]
     dispositivos.setdefault(nova_marca, []).extend(nova_lista)
 
-def excluir_dispositivos():
-    "Apagar equipamento cadastrado"
-    pass
+
 
 #MOSTRAR APARELHOS
 def mostrar_aparelhos():
@@ -83,6 +81,50 @@ def mostrar_aparelhos():
             print("-" * 40)
             for d in lista:
                 print(f"{d['codigo']:<12} | {d['modelo']:<10} | {d['status']:<12}")
+
+
+
+#EXCLUIR APARELHOS
+def excluir_aparelhos(dispositivos):
+    mostrar_aparelhos()
+
+    marca = input("Digite a marca do aparelho que deseja excluir: ").strip().upper()
+
+    if marca not in dispositivos or not dispositivos[marca]:
+        print("Marca não encontrada ou sem aparelhos cadastrados.")
+        return
+
+    nome_aparelho = input("Digite o codigo do aparelho que deseja excluir: ").strip()
+
+    
+    lista = dispositivos[marca]
+
+    
+    lista.sort(key=lambda x: x["codigo"])
+
+    
+    inicio = 0
+    fim = len(lista) - 1
+
+    while inicio <= fim:
+        meio = (inicio + fim) // 2
+        modelo_meio = lista[meio]["codigo"]
+
+        if modelo_meio == nome_aparelho:
+            lista.pop(meio)
+            print(f"Aparelho '{nome_aparelho}' da marca '{marca}' removido com sucesso!!")
+            
+            if not lista:
+                del dispositivos[marca]
+            return
+        elif nome_aparelho < modelo_meio:
+            fim = meio - 1
+        else:
+            inicio = meio + 1
+
+    print(f"Aparelho '{nome_aparelho}' não encontrado na marca '{marca}'.")
+
+
 
 #MENU GERENCIAR
 def menu_gerenciar():
@@ -107,7 +149,7 @@ def menu_gerenciar():
         elif escolha == 3:
             editar_aparelho()
         elif escolha == 4:
-            print("excluir_aparelho()")
+            excluir_aparelhos(dispositivos)
         else:
             print("Voltando para o menu principal")
 
