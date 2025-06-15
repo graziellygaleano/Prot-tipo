@@ -1,5 +1,4 @@
 from Database import dispositivos, horarios, salas, reservas
-from final import editor_reserva
 from MostrarReservas import mostrar_reservas
 
 # dispositivos
@@ -40,7 +39,7 @@ def addReserva(ID, horaInicio, horaFinal, sala, reservado):
     reservas[str(ID)] = { # ID = Qualquer id pra representar a reserva
             "Hora": [horaInicio, horaFinal], # Dois inteiros entre os horários disponíveis (nesse caso entre as 8h e 11h)
             "Destino": sala, # Qualquer string com um dos valores a seguir: ["Sala 01", "Sala 02", "Sala 03", "Sala 04", "Sala 05", "Sala 06", "Sala 07", "Sala 08", "Sala 09", Cozinha]
-            "Código": reservado # Formato do código: {marca em CAPSLOCK}{número incremental de exatos 8 dígitos (zeros adicionados a esquerda)}
+            "Código": [reservado] # Formato do código: {marca em CAPSLOCK}{número incremental de exatos 8 dígitos (zeros adicionados a esquerda)}
         }
     
 # ! Começando a feedar
@@ -122,16 +121,6 @@ addReserva(9, 8, 9, "Sala 04", "SONY00000002")
 # ID: 10 - Reservando o terceiro iPhone disponível
 addReserva(10, 9, 10, "Sala 02", "APPLE00000006")
 
-mostrar_reservas()
-editor_reserva(reservas)
+
 from main import main
 main()
-
-
-[{'codigo': 'Canon00000001', 'modelo': 'EOS R6 Mark II', 'status': 'disponível'}, 
- {'codigo': 'Canon00000003', 'modelo': 'EOS R6 Mark II', 'status': 'disponível'}, 
- {'codigo': 'Canon00000005', 'modelo': 'EOS R6 Mark II', 'status': 'disponível'}, 
- {'codigo': 'Canon00000007', 'modelo': 'EOS R6 Mark II', 'status': 'disponível'}, 
- {'codigo': 'Canon00000009', 'modelo': 'EOS R6 Mark II', 'status': 'disponível'}, 
- {'codigo': 'Canon00000011', 'modelo': 'EOS R6 Mark II', 'status': 'disponível'}, 
- {'codigo': 'Canon00000013', 'modelo': 'EOS R6 Mark II', 'status': 'disponível'}]
