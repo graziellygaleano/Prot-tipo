@@ -348,8 +348,8 @@ def menu_reservas():
         print(f"{AZUL_CLARO}0. Configurar empréstimos{RESET}")
         print(f"{AZUL_CLARO}1. Criar empréstimos{RESET}")
         print(f"{AZUL_CLARO}2. Mostrar empréstimo{RESET}")
-        print(f"{AZUL_CLARO}3. Editar Empréstimo{RESET}")
-        print(f"{AZUL_CLARO}4. Cancelar Empréstimo{RESET}")
+        print(f"{AZUL_CLARO}3. Editar empréstimo{RESET}")
+        print(f"{AZUL_CLARO}4. Cancelar empréstimo{RESET}")
         print(f"{AZUL_CLARO}5. Sair{RESET}")
 
         escolha = int(input("Digite a sua opcao: "))

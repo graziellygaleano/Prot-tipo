@@ -39,32 +39,39 @@ def reservas_matriz(horarios, reservas):
     
     print(legenda)
     print(margem+divisoria_horizontal)
-    # print(f"{margem}+{'-' * largura}+")
-
-    # for column in range(max_colunas):
-    #     divisoria_horizontal += "-"*8 + "+"
 
     if all(len(reservantes) == 0 for reservantes in reservantes_por_hora.values()):
         print("Nenhuma reserva encontrada.")
         return
         
-
-
-    # for linha in range(max_linhas):
-    #     print("      ", end="")
-    #     for h in horarios:
-    #         reservantes = reservantes_por_hora[h]
-    #         if linha < len(reservantes):
-    #             print(f"{reservantes[linha]:>6}", end=" ")
-    #         else:
-    #             print("    ", end=" ")
-    #     print()
     for horario in horarios:
         print("      ", end="")
         reservantes = reservantes_por_hora[horario]
         aux = ''
         for reserva in reservantes:
             aux += f"ID: {reserva:>4}|"
-        print(f"|{horario:>7}h|{len(reservantes):>8}|{aux}", end="\n")
+        linha = f"|{horario:>7}h|{len(reservantes):>8}|{aux}"
+        largura_esperada = largura + 2
+        if len(linha) < largura_esperada:
+            linha += (largura_esperada - len(linha) - 1)*" " + '|'
+        print(linha)
 
     print(margem+divisoria_horizontal)
+
+
+#MENU MOSTRAR RESERVAS
+def menu_mostrar_reservas():
+
+    reservas_matriz(horarios, reservas)
+
+    escolha = "y"
+
+    print("\n\tMais informações...")
+    while escolha not in list["s","n"]:
+        escolha = input("Deseja ver os dados de todas as reservas cadastradas? (s/n): ")
+        print()
+        if escolha == "s":
+            mostrar_reservas()
+        else:
+            break
+                       

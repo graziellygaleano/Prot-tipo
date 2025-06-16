@@ -129,6 +129,8 @@ addReserva(9, 8, 9, "Sala 04", "SONY00000002")
 # ID: 10 - Reservando o terceiro iPhone disponível
 addReserva(10, 9, 10, "Sala 02", "APPLE00000006")
 
+# addReserva(11, 8, 9, "Cozinha", "APPLE00000008")
+
 def mostrar_disponivel():
     for marca, dispositivolista in dispositivos.items():
         for elemento in dispositivolista:

@@ -4,7 +4,7 @@ from paletadecores import *  # Importa as cores
 from Devoluções import devolver_equipamento
 from GerenciarDispositivos import menu_gerenciar
 from GerenciarReservas import menu_reservas, mostrar_reservas
-from MostrarReservas import reservas_matriz
+from MostrarReservas import menu_mostrar_reservas
 from Database import horarios, reservas
 from Ajuda import manual
 
@@ -28,9 +28,9 @@ def menu_principal():
     escolha = -1
     while escolha != 6:
         print(f"{AZUL_ESCURO}{NEGRITO}=============== MENU PRINCIPAL ==============={RESET}")
-        print(f"{AZUL_BRILHANTE}1.{RESET} {BRANCO}Mostrar Empréstimos{RESET}")
-        print(f"{AZUL_BRILHANTE}2.{RESET} {BRANCO}Gerenciar Equipamentos{RESET}")
-        print(f"{AZUL_BRILHANTE}3.{RESET} {BRANCO}Gerenciar Empréstimos{RESET}")
+        print(f"{AZUL_BRILHANTE}1.{RESET} {BRANCO}Mostrar empréstimos{RESET}")
+        print(f"{AZUL_BRILHANTE}2.{RESET} {BRANCO}Gerenciar equipamentos{RESET}")
+        print(f"{AZUL_BRILHANTE}3.{RESET} {BRANCO}Gerenciar empréstimos{RESET}")
         print(f"{AZUL_BRILHANTE}4.{RESET} {BRANCO}Devolver aparelhos{RESET}")
         print(f"{AZUL_BRILHANTE}5.{RESET} {BRANCO}Ajuda{RESET}")
         print(f"{AZUL_BRILHANTE}6.{RESET} {BRANCO}Sair{RESET}")
@@ -42,8 +42,7 @@ def menu_principal():
             continue
 
         if escolha == 1:
-            reservas_matriz(horarios, reservas)
-            input("Pressione uma tecla para voltar ao menu")
+            menu_mostrar_reservas()
             os.system('cls' if os.name == 'nt' else 'clear')            
         elif escolha == 2:
             menu_gerenciar()
