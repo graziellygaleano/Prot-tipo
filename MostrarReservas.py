@@ -13,6 +13,10 @@ def mostrar_reservas():
 
 def reservas_matriz(horarios, reservas):
 
+    if len(reservas) == 0:
+        print("Nenhuma reserva cadastrada.")
+        return
+
     #cabeçalho
     margem = " " * 6
     
