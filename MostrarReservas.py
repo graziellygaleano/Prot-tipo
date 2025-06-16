@@ -39,7 +39,7 @@ def reservas_matriz(horarios, reservas):
     print(f"{margem}|{'RESERVAS POR HORÁRIO'.center(largura)}|")
     print(f"{margem}+{'=' * largura}+")
     
-    legenda = f"{margem}|{"Horário":>8}|{"Qtd":>8}| Reservas{(largura - 27)*" "}|"
+    legenda = f"{margem}|{'Horário':>8}|{'Qtd':>8}| Reservas{(largura - 27)*' '}|"
     
     print(legenda)
     print(margem+divisoria_horizontal)
